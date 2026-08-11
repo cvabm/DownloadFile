@@ -1,0 +1,21 @@
+name: Download File
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Download File
+      run: |
+        $url = "https://www.ibm.com/docs/zh/SSZJDU_6.4.0/pdf/dpxmst.pdf"
+        Invoke-WebRequest -Uri $url -OutFile dpxmst.pdf -UseBasicParsing
+        Write-Host "Download completed. File size: $((Get-Item dpxmst.pdf).Length) bytes"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dpxmst-pdf
+        path: dpxmst.pdf
+        retention-days: 7
